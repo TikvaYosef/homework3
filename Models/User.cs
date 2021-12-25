@@ -23,6 +23,6 @@ namespace homework.Models
             this.conected = conected;
         }
 
-        public static List<User> listofusers = new List<User>();
+        //public static List<User> listofusers = new List<User>();
     }
 }

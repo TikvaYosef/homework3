@@ -10,35 +10,60 @@ namespace homework.Controllers.API
 {
     public class User1Controller : ApiController
     {
+        List<User> listOfUsers = new List<User>();
 
-        User[] arrayofusers = new User[] { new User(0, "tikva", "yosef", 1996, true) };
-
+        void Showusers()
+        {
+           
+            User[] arrayofusers = new User[] { new User(0, "tikva", "yosef", 1996, true), new User(1, "keren", "hailu", 1998, false) };
+            //User.listofusers.AddRange(arrayofusers);
+            listOfUsers.AddRange(arrayofusers);
+        }
 
         // GET: api/User1
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            Showusers();
+            return Ok(listOfUsers);
         }
 
         // GET: api/User1/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            Showusers();
+            User sameuser = listOfUsers.Find(item => item.id == id);
+            return Ok(sameuser);
         }
 
         // POST: api/User1
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody] User value)
         {
+            List<User> newuser = new List<User>();
+            newuser.Add(value);
+            return Ok(newuser);
         }
 
         // PUT: api/User1/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody] User value)
         {
+            Showusers();
+            User sameuser = listOfUsers.Find(item => item.id == id);
+            listOfUsers[listOfUsers.IndexOf(sameuser)].firstName = value.firstName;
+            listOfUsers[listOfUsers.IndexOf(sameuser)].lastName = value.lastName;
+            listOfUsers[listOfUsers.IndexOf(sameuser)].year = value.year;
+            listOfUsers[listOfUsers.IndexOf(sameuser)].conected = value.conected;
+
+            listOfUsers.Add(sameuser);
+            return Ok(listOfUsers);
         }
 
         // DELETE: api/User1/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            Showusers();
+            User sameuser = listOfUsers.Find(item => item.id == id);
+            listOfUsers.Remove(sameuser);
+            return Ok(listOfUsers);
         }
     }
 }
